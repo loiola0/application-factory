@@ -1,49 +1,47 @@
-import { props } from 'bluebird';
 import React,{Component} from 'react';
 
 
-class Equipe extends Component{
+class App extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            nome: "Victor",
+            contador: 0
+        }
+        this.aumentar = this.aumentar.bind(this);
+        this.diminuir = this.diminuir.bind(this);
+    }
+    aumentar(){
+       let state = this.state;
+       state.contador += 1;
+       state.nome = "Gabriel";
+       this.setState(state);
+    }
+
+    diminuir(){
+        let state = this.state;
+        if(state.contador === 0){
+            alert("Opa! Chegou a zero...");
+            return;
+        }
+        state.contador -= 1;
+        this.setState(state);
+    }
+
     render(){
         return(
             <div>
-                <Sobre nome={this.props.nome} idade={this.props.idade} cargo={this.props.cargo}/>
-                <Social fb={this.props.facebook}/>
+                <h1>Meu nome é {this.state.nome}</h1>
                 <hr/>
+                <h1>Contador</h1>
+                <h2>
+                    <button onClick={this.diminuir}>-</button>
+                        {this.state.contador}
+                    <button onClick={this.aumentar}>+</button>
+                </h2>
             </div>
         );
     }
-}
-
-class Sobre extends Component{
-    render(){
-        return(
-            <div>
-                <h2>Olá sou o(a) {this.props.nome}</h2>
-                <h3>Tenho {this.props.idade} anos</h3>
-                <h3>Trabalho como {this.props.cargo}</h3>
-            </div>
-            
-        );
-    }
-}
-
-const Social = (props) => {
-    return (
-        <a href={props.fb}><h3>Facebook</h3></a>
-    );
-}
- 
-function App(){
-    return(
-     <div>
-        <h1>Conheça nossa equipe</h1>
-        <Equipe nome="Victor Gabriel" idade="20" cargo="Desenvolvedor Back-End"
-            facebook="https://facebook.com"/>
-
-        <Equipe nome="Jhamesosn Lucas" idade="20" cargo="Desenvolvedor Mobile"
-            facebook="https://facebook.com/jhamessonlucas"/>
-     </div>   
-    );
 }
 
 export default App;
