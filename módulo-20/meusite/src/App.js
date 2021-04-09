@@ -1,32 +1,53 @@
 import React,{Component} from 'react';
-import Feed from './components/feed';
+
 
 class App extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            feed:[
-                {id:1,username:"Victor",likes:130,comments:14},
-                {id:2,username:"AuucuoGelson",likes:240,comments:9},
-                {id:3,username:"John Wick",likes:30,comments:2},
-                {id:4,username:"Paula",likes:1,comments:1},
-            ]
-        };
-        
-       
+            email: "",
+            senha: "",
+            sexo: "Masculino"
+        }
+        this.trocaEmail = this.trocaEmail.bind(this);
+        this.trocaSexo = this.trocaSexo.bind(this);
+    }
+
+    trocaEmail(e){
+        let valorDigitado = e.target.value;
+        this.setState({email:valorDigitado});
+    }
+
+    trocaSexo(e){
+        let valorDigitado = e.target.value;
+        this.setState({sexo:valorDigitado});
     }
 
     render(){
        
         return(
             <div>
-                {this.state.feed.map((item)=>{
-                    return(
-                        <Feed key={item.id} username={item.username} likes={item.likes} comments={item.comments}/>
-                    );
-                    
-                })}
+                <div>
+                    <h2>Login</h2>
+                    Email:
+                        <input type="email" name="email" value={this.state.email}
+                            onChange={this.trocaEmail}/><br/>
+                    Senha:
+                        <input type="password" name="senha" value={this.state.senha}
+                        onChange={(e)=>{this.setState({senha:e.target.value})}}/><br/>
+                    Sexo:
+                      <select value={this.state.sexo} onChange={this.trocaSexo}>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Feminino">Feminino</option>
+                      </select>
+                </div>
+                <div>
+                    <h3>{this.state.email}</h3>
+                    <h3>{this.state.senha}</h3>
+                    <h3>{this.state.sexo}</h3>
+                </div>
+               
             </div> 
         );
     }
