@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useMemo} from 'react';
+import React,{useState,useEffect,useMemo,useCallback} from 'react';
 
 
 
@@ -6,15 +6,15 @@ function App() {
 
   const [tarefas,setTarefas] = useState(['Pagar a conta de luz','Estudar React Hooks']);
 
-  const [nome,setNome] = useState('Victor');
+ // const [nome,setNome] = useState('Victor');
 
   const [input,setInput] = useState('');
 
 
-  function handleAdd(){
+  const handleAdd = useCallback(()=>{
     setTarefas([...tarefas,input]);
     setInput('');
-  }
+  },[input,tarefas]);
 
   //quando sofre alguma alteração
   useEffect(()=>{
