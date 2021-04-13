@@ -7,7 +7,7 @@ export default function Header(){
     return(
         <header>
             <Link to="/" className="logo">Filmaria</Link>
-            <Link to="/" className="favoritos">Salvos</Link>
+            <Link to="/favoritos" className="favoritos">Salvos</Link>
         </header>
     );
 }
