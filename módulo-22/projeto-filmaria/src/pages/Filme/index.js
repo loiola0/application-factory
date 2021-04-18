@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import {useParams} from 'react-router-dom';
+import {useParams,useHistory} from 'react-router-dom';
 
 import './filme-info.css';
 import api from '../../services/api';
@@ -9,6 +9,8 @@ export default function Filme(){
 
     const {id} = useParams();
 
+    const history = useHistory();
+
     const [filme,setFilme] = useState([]);
     const [loading,setLoading] = useState(true);
 
@@ -16,14 +18,24 @@ export default function Filme(){
 
         async function loadFilmes(){
             const response = await api.get(`r-api/?api=filmes/${id}`);
+
+            if(response.data.length === 0){
+                //tentou acessar com id que não existe, logo mandamos para a home.
+                history.replace('/');
+                return;
+            }
+
+
             setFilme(response.data)
             setLoading(false);
         }
 
+        
+
 
         loadFilmes();
 
-    },[id]);
+    },[id,history]);
 
   if(loading){
     return(
@@ -35,7 +47,20 @@ export default function Filme(){
 
     return(
         <div className="filme-info">
-            <h1>PÁGINA DETALHES - {id}</h1>
+            <h1>{filme.nome}</h1>
+            <img src={filme.foto} alt={filme.nome}/>
+
+            <h3>Sinopse</h3>
+            {filme.sinopse}
+
+            <div className="botoes">
+                <button onClick={()=>{}}>Salvar</button>
+                <button>
+                    <a target="black" href={`https://www.youtube.com/results?search_query=${filme.nome} Trailer`}>Trailer</a>
+                </button>
+
+            </div>
+
         </div>
     );
 }
