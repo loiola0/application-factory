@@ -12,6 +12,8 @@ function App() {
     const [posts,setPosts] = useState([]);
     const [email,setEmail] = useState('');
     const [senha,setSenha] = useState('');
+    const [user,setUser] = useState(false);
+    const [userLogged,setUserLogged] = useState({});
 
 
 
@@ -38,6 +40,33 @@ function App() {
         loadPosts();
 
     },[]);
+
+    useEffect(()=>{
+
+        async function checkLogin(){
+          await firebase.auth().onAuthStateChanged((user)=>{
+            if(user){
+              //se tem usuário logado entra aqui.
+              setUser(true);
+
+              setUserLogged({
+                uid: user.uid,
+                email: user.email,
+
+              })
+
+            }else{
+              //não possui nenhum user logado.
+              setUser(false);
+              setUserLogged({});
+            }
+          })
+        }
+        
+
+        checkLogin();
+
+    },[])
 
 
     async function handleAdd(){
@@ -138,9 +167,28 @@ function App() {
       })
     }
 
+    async function logout(){
+      await firebase.auth().signOut()
+      .then(()=>{
+
+      })
+      .catch((error) => {
+
+      })
+    }
+
   return (
     <div className="App">
       <h1>ReactJs + FireBase :)</h1><br/>
+
+
+      {user && (
+        <div>
+            <strong>Seja bem vindo! (Você está logado!)</strong><br/>
+            <span>{userLogged.uid} - {userLogged.email}</span>
+            <br/><br/>
+        </div>
+      )}
 
       <div className="container">
 
@@ -149,6 +197,7 @@ function App() {
           <label>Senha</label>
           <input type="password" value={senha} onChange={(e)=>setSenha(e.target.value)}/><br/>
           <button onClick={novoUsuario}>Cadastrar</button>
+          <button onClick={logout}>Sair da conta</button>
       </div>
 
       <hr/>
