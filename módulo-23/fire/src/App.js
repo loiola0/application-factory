@@ -177,6 +177,17 @@ function App() {
       })
     }
 
+    async function fazerLogin(){
+      await firebase.auth().signInWithEmailAndPassword(email,senha)
+      .then(()=>{
+        alert('Login feito com sucesso!');
+      })
+      .catch((error)=>{
+        alert('Error ao fazer login: '+error);
+      })
+      
+    }
+
   return (
     <div className="App">
       <h1>ReactJs + FireBase :)</h1><br/>
@@ -196,6 +207,7 @@ function App() {
           <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)}/><br/>
           <label>Senha</label>
           <input type="password" value={senha} onChange={(e)=>setSenha(e.target.value)}/><br/>
+          <button onClick={fazerLogin}>Fazer login</button>
           <button onClick={novoUsuario}>Cadastrar</button>
           <button onClick={logout}>Sair da conta</button>
       </div>
