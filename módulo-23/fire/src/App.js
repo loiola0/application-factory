@@ -179,7 +179,10 @@ function App() {
     async function logout(){
       await firebase.auth().signOut()
       .then(()=>{
-
+        setUser({});
+        setEmail('');
+        setSenha('');
+        
       })
       .catch((error) => {
 
@@ -229,7 +232,16 @@ function App() {
           <button onClick={logout}>Sair da conta</button>
       </div>
 
-      <hr/>
+      <hr/><br/>
+
+      {Object.keys(user).length > 0 && (
+        <div>
+          <strong>Olá </strong>{user.nome}<br/>
+          <strong>Cargo: </strong>{user.cargo}<br/>
+          <strong>Email: </strong>{user.email}<br/>
+          <strong>Status: </strong>{user.status ? 'ATIVO' : 'DESATIVADO'}
+        </div>
+      )}
       
 
     </div>
